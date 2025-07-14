@@ -109,7 +109,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, userName }) => {
   );
 };
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const backendUrl = import.meta.env.VITE_BACKEND_URL || '/api';
 
 //${backendUrl}
 
