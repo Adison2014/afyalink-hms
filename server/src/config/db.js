@@ -23,8 +23,11 @@ if (process.env.DATABASE_URL) {
 // Test connection
 pool.connect((err, client, release) => {
   if (err) {
+    console.log("ENV DATABASE_URL:", process.env.DATABASE_URL);
     return console.error('❌ Error acquiring client:', err.stack);
+    
   }
+  
   console.log('✅ Successfully connected to PostgreSQL database');
   release(); // release the client back to the pool
 });
