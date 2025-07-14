@@ -11,10 +11,10 @@ export default defineConfig(({ mode }) => {
       viteStaticCopy({
         targets: [
           {
-            src: 'public/_redirects',
-            dest: '.',
-          }
-        ]
+            src: 'public/_redirects', // 👈 This is correct
+            dest: '.',                // 👈 This copies it to `dist/`
+          },
+        ],
       }),
     ],
     server: {
