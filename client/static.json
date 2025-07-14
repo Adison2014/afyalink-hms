@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://afyalink-hms-backend.onrender.com/api/$1",
+      "status": 200
+    }
+  ]
+}
