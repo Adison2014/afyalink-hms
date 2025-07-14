@@ -31,6 +31,11 @@ const inputVariants = {
   visible: { y: 0, opacity: 1 }
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//fetch(`${backendUrl}/api/something`)
+
+
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -48,7 +53,7 @@ function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch(`${backendUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
