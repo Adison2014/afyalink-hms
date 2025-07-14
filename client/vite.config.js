@@ -1,26 +1,29 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Set API base URL depending on dev or production
-const isDev = process.env.NODE_ENV !== 'production';
+// Detect production (Render sets NODE_ENV=production)
+const isProduction = process.env.NODE_ENV === 'production'
 
 export default defineConfig({
   plugins: [react()],
   server: {
     port: 5005,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true,
-        secure: false,
+    proxy: isProduction
+      ? {} // No proxy in production
+      : {
+          '/api': {
+            target: 'http://localhost:5000',
+            changeOrigin: true,
+            secure: false,
+          },
+        },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        // Avoid warnings about mixed modules if any
+        manualChunks: undefined,
       },
     },
-  },
-  define: {
-    __API_BASE_URL__: JSON.stringify(
-      isDev
-        ? 'http://localhost:5000/api'
-        : 'https://afyalink-hms-backend.onrender.com/api'
-    ),
   },
 })
