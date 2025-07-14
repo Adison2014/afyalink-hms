@@ -30,6 +30,10 @@ import bgTestimonials from '../assets/bg-testimonials.webp';
 import '/src/footer.css'; // Your existing footer styles
 import './HomePage.css'; // Create this for custom animations and styles
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 const HomePage = () => {
     const navigate = useNavigate();
     const { currentUser } = useAuth(); // Assuming useAuth provides current user if logged in

@@ -109,6 +109,10 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, userName }) => {
   );
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 // --- Main UsersManagementPage Component ---
 function UsersManagementPage() {
   const { user, isAuthenticated, loading: authLoading, token } = useAuth();
@@ -143,7 +147,7 @@ function UsersManagementPage() {
   });
 
   // Base URL for API calls
-  const API_BASE_URL = '/api/';
+  //const backendUrl = '/api/';
 
   const fetchUsers = useCallback(async () => {
     if (!token) return; // Ensure token is available
@@ -159,7 +163,7 @@ function UsersManagementPage() {
         queryParams.append('role', filterRole);
       }
 
-      const response = await fetch(`${API_BASE_URL}/users?${queryParams.toString()}`, { // Added query parameters
+      const response = await fetch(`${backendUrl}/users?${queryParams.toString()}`, { // Added query parameters
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -180,7 +184,7 @@ function UsersManagementPage() {
     } finally {
       setLoading(false);
     }
-  }, [token, searchTerm, filterRole, API_BASE_URL, navigate]); // Dependencies for useCallback
+  }, [token, searchTerm, filterRole, backendUrl, navigate]); // Dependencies for useCallback
 
   useEffect(() => {
     if (!authLoading && isAuthenticated && user && user.role === 'admin') {
@@ -219,7 +223,7 @@ function UsersManagementPage() {
 
   const handleToggleStatus = async (userId, currentStatus) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/users/${userId}/toggle-status`, {
+      const response = await fetch(`${backendUrl}/users/${userId}/toggle-status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -246,7 +250,7 @@ function UsersManagementPage() {
     }
     setNotification({ message: `Sending password reset for user ${userId}...`, type: 'info' });
     try {
-      const response = await fetch(`${API_BASE_URL}/users/${userId}/reset-password`, {
+      const response = await fetch(`${backendUrl}/users/${userId}/reset-password`, {
         method: 'POST', // Changed to POST, as reset usually triggers an action, not updates a resource directly
         headers: {
           'Authorization': `Bearer ${token}`
@@ -344,11 +348,11 @@ function UsersManagementPage() {
       delete dataToSend.password;
     }
 
-    let url = `${API_BASE_URL}/users`;
+    let url = `${backendUrl}/users`;
     let method = 'POST';
 
     if (editingUser) {
-      url = `${API_BASE_URL}/users/${editingUser.id}`;
+      url = `${backendUrl}/users/${editingUser.id}`;
       method = 'PUT';
     }
 
@@ -386,7 +390,7 @@ function UsersManagementPage() {
     if (!userToDelete || !token) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/users/${userToDelete.id}`, {
+      const response = await fetch(`${backendUrl}/users/${userToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

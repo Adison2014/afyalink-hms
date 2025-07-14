@@ -123,6 +123,10 @@ const StaffListModal = ({ isOpen, onClose, departmentName, staffList }) => {
   );
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 // --- Main DepartmentsManagementPage Component ---
 function DepartmentsManagementPage() {
   const { user, token } = useAuth();

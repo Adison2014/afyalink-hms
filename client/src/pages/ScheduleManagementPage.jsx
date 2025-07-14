@@ -64,6 +64,9 @@ const Notification = ({ message, type, onClose }) => {
     );
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
 
 // Main ScheduleManagementPage Component
 function ScheduleManagementPage() {

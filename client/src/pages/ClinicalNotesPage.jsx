@@ -59,6 +59,9 @@ const Modal = ({ isOpen, onClose, children, title }) => {
   );
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
 
 function ClinicalNotesPage() {
   const { token, isAuthenticated, user, loading: authLoading } = useAuth();

@@ -8,6 +8,10 @@ import { Bar, Pie } from 'react-chartjs-2';
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 function DashboardPage() {
   const { user, isAuthenticated, loading: authLoading, token } = useAuth();
   const navigate = useNavigate();

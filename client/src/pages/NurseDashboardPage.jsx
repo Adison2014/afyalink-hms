@@ -46,6 +46,10 @@ const Notification = ({ message, type, onClose }) => {
   );
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 
 function NurseDashboardPage() {
   const { user, isAuthenticated, loading: authLoading, token } = useAuth();
@@ -72,6 +76,7 @@ function NurseDashboardPage() {
   const [notification, setNotification] = useState({ message: null, type: null });
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+  
 
   // Function to simulate fetching vitals history for sparklines
   const fetchSimulatedVitalsHistory = useCallback((patientId) => {

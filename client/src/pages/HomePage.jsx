@@ -33,6 +33,10 @@ import bgAbstractBlue from '../assets/bg-abstract-blue.webp';
 import './HomePage.css'; // For custom animations and intricate styles
 import '/src/footer.css'; // For consistent footer styling
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 const HomePage = () => {
     const navigate = useNavigate();
     const { currentUser } = useAuth(); // Destructure currentUser from AuthContext

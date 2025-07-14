@@ -127,6 +127,10 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, patientName }) =>
 };
 
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 function PatientsPage() {
   const { token, isAuthenticated, user, loading: authLoading } = useAuth();
   const navigate = useNavigate();

@@ -3,6 +3,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
+
 function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

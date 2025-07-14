@@ -114,6 +114,9 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, itemType }) => {
   );
 };
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+//${backendUrl}
 
 function AppointmentsPage() {
   const { user, isAuthenticated, loading: authLoading, token } = useAuth();
