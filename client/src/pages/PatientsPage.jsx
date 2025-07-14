@@ -129,7 +129,7 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, patientName }) =>
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 function PatientsPage() {
   const { token, isAuthenticated, user, loading: authLoading } = useAuth();
@@ -173,7 +173,7 @@ const fetchPatients = useCallback(async () => {
   setNotification({ message: null, type: null });
 
   try {
-    const response = await fetch('/api/patients', {
+    const response = await fetch(`${backendUrl}/api/patients`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
@@ -238,7 +238,7 @@ const fetchPatients = useCallback(async () => {
     }
 
     try {
-      const url = editingPatient ? `/api/patients/${editingPatient.id}` : '/api/patients';
+      const url = editingPatient ? `${backendUrl}/api/patients/${editingPatient.id}` : `${backendUrl}/api/patients`;
       const method = editingPatient ? 'PUT' : 'POST';
 
       let body;
@@ -295,7 +295,7 @@ const fetchPatients = useCallback(async () => {
     setNotification({ message: null, type: null });
 
     try {
-      const response = await fetch(`/api/patients/${patientToDelete.id}`, {
+      const response = await fetch(`${backendUrl}/api/patients/${patientToDelete.id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

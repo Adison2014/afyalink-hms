@@ -48,7 +48,7 @@ const Notification = ({ message, type, onClose }) => {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 
 function NurseDashboardPage() {
@@ -75,7 +75,7 @@ function NurseDashboardPage() {
   const [error, setError] = useState(null);
   const [notification, setNotification] = useState({ message: null, type: null });
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+ // const backendUrl = import.meta.env.VITE_backendUrl || '/api';
   
 
   // Function to simulate fetching vitals history for sparklines
@@ -133,16 +133,16 @@ function NurseDashboardPage() {
         vitalsRecordedTodayRes,
         newDoctorOrdersRes,
       ] = await Promise.all([
-        fetch(`${API_BASE_URL}/patients?nurse_id=${user.id}&assigned_today=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/medications/due?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/vitals/needs-update?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/beds/availability`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/alerts?recipient_role=nurse`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/schedules?user_id=${user.id}&date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/patients/count?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/medications/administered/count?nurse_id=${user.id}&date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/vitals/recorded/count?nurse_id=${user.id}&date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/orders/new?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/patients?nurse_id=${user.id}&assigned_today=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/medications/due?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/vitals/needs-update?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/beds/availability`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/alerts?recipient_role=nurse`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/schedules?user_id=${user.id}&date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/patients/count?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/medications/administered/count?nurse_id=${user.id}&date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/vitals/recorded/count?nurse_id=${user.id}&date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/orders/new?nurse_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
       ]);
 
       // Helper to check response and parse JSON
@@ -206,7 +206,7 @@ function NurseDashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, [token, user?.id, API_BASE_URL, fetchSimulatedVitalsHistory, simulateEmergencyAlerts]); // Added simulated data functions to dependencies
+  }, [token, user?.id, backendUrl, fetchSimulatedVitalsHistory, simulateEmergencyAlerts]); // Added simulated data functions to dependencies
 
   // Auto-refresh mechanism
   useEffect(() => {

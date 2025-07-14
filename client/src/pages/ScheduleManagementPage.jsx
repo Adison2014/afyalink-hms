@@ -66,7 +66,7 @@ const Notification = ({ message, type, onClose }) => {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 // Main ScheduleManagementPage Component
 function ScheduleManagementPage() {
@@ -213,8 +213,8 @@ function ScheduleManagementPage() {
         const config = { headers: { Authorization: `Bearer ${token}` } };
         // The backend should handle filtering by doctor_id if applicable,
         // so a general endpoint is often sufficient. If your backend needs doctor_id in URL for filtering,
-        // then change this URL accordingly, e.g., `/api/schedules/availability/${user.id}`
-        const url = '/api/schedules/availability'; // Changed to common availabilities endpoint
+        // then change this URL accordingly, e.g., `${backendUrl}/api/schedules/availability/${user.id}`
+        const url = `${backendUrl}/api/schedules/availability`; // Changed to common availabilities endpoint
         try {
             const response = await axios.get(url, config);
             setAvailabilities(response.data);
@@ -228,7 +228,7 @@ function ScheduleManagementPage() {
 // ⭐ MOVE fetchSchedules OUTSIDE of useEffect and wrap in useCallback
     const fetchSchedules = useCallback(async () => {
         try {
-            const response = await axios.get('/api/schedules', config);
+            const response = await axios.get(`${backendUrl}/api/schedules`, config);
             setSchedules(response.data.map(s => {
                 const startDateTimeString = s.appointment_date && s.appointment_time
                     ? `${moment(s.appointment_date).format('YYYY-MM-DD')} ${s.appointment_time}`
@@ -254,7 +254,7 @@ function ScheduleManagementPage() {
     // For simplicity, I'll show them as direct functions here, but consider useCallback for them too.
     const fetchDoctors = useCallback(async () => {
         try {
-            const response = await axios.get('/api/users?role=doctor', config);
+            const response = await axios.get(`${backendUrl}/api/users?role=doctor`, config);
             setDoctors(response.data);
         } catch (error) {
             console.error('Error fetching doctors:', error);
@@ -264,7 +264,7 @@ function ScheduleManagementPage() {
 
     const fetchDepartments = useCallback(async () => {
         try {
-            const response = await axios.get('/api/departments', config);
+            const response = await axios.get(`${backendUrl}/api/departments`, config);
             setDepartments(response.data);
         } catch (error) {
             console.error('Error fetching departments:', error);
@@ -274,7 +274,7 @@ function ScheduleManagementPage() {
 
     const fetchPatients = useCallback(async () => {
         try {
-            const response = await axios.get('/api/patients', config);
+            const response = await axios.get(`${backendUrl}/api/patients`, config);
             setPatients(response.data.patients);
         } catch (error) {
             console.error('Error fetching patients:', error);
@@ -285,7 +285,7 @@ function ScheduleManagementPage() {
     const fetchAvailabilities = useCallback(async () => {
         try {
             // Note: The original URL had a commented out ternary, ensure this is correct for your logic
-            const url = '/api/schedules/availability'; // Removed the user.role check if not needed
+            const url = `${backendUrl}/api/schedules/availability`; // Removed the user.role check if not needed
             const response = await axios.get(url, config);
             setAvailabilities(response.data);
         } catch (error) {
@@ -367,10 +367,10 @@ function ScheduleManagementPage() {
             };
 
             if (editingSchedule) {
-                await axios.put(`/api/schedules/${editingSchedule.id}`, payload, config);
+                await axios.put(`${backendUrl}/api/schedules/${editingSchedule.id}`, payload, config);
                 setNotification({ message: 'Schedule updated successfully!', type: 'success' });
             } else {
-                await axios.post('/api/schedules', payload, config);
+                await axios.post(`${backendUrl}/api/schedules`, payload, config);
                 setNotification({ message: 'Schedule added successfully!', type: 'success' });
             }
             setShowScheduleFormModal(false);
@@ -406,13 +406,13 @@ function ScheduleManagementPage() {
         };
 
         try {
-            await axios.delete(`/api/schedules/${editingSchedule.id}`, config);
+            await axios.delete(`${backendUrl}/api/schedules/${editingSchedule.id}`, config);
             setNotification({ message: 'Schedule deleted successfully!', type: 'success' });
             setShowScheduleFormModal(false);
             setEditingSchedule(null);
             resetScheduleFormData();
             // Re-fetch schedules to update the list
-            const response = await axios.get('/api/schedules', config);
+            const response = await axios.get(`${backendUrl}/api/schedules`, config);
             setSchedules(response.data.map(s => ({
                 ...s,
                 appointment_start_datetime: s.appointment_start_datetime ? new Date(s.appointment_start_datetime) : null,
@@ -460,7 +460,7 @@ function ScheduleManagementPage() {
                     max_patients_per_slot: availabilityFormData.max_patients_per_slot,
                     is_active: availabilityFormData.is_active,
                 };
-                await axios.put(`/api/schedules/availability/${editingAvailability.id}`, payload, config);
+                await axios.put(`${backendUrl}/api/schedules/availability/${editingAvailability.id}`, payload, config);
                 setNotification({ message: 'Availability updated successfully!', type: 'success' });
 
             } else {
@@ -483,7 +483,7 @@ function ScheduleManagementPage() {
                         max_patients_per_slot: availabilityFormData.max_patients_per_slot,
                         is_active: availabilityFormData.is_active ?? true, // Default to true for new
                     };
-                    await axios.post('/api/schedules/availability', payload, config);
+                    await axios.post(`${backendUrl}/api/schedules/availability`, payload, config);
                 }
                 setNotification({ message: 'Availability added successfully for selected days!', type: 'success' });
             }
@@ -522,13 +522,13 @@ function ScheduleManagementPage() {
         };
 
         try {
-            await axios.delete(`/api/schedules/availability/${idToDelete}`, config);
+            await axios.delete(`${backendUrl}/api/schedules/availability/${idToDelete}`, config);
             setNotification({ message: 'Availability deleted successfully!', type: 'success' });
             setShowAvailabilityFormModal(false);
             setEditingAvailability(null);
             resetAvailabilityFormData();
             // Re-fetch availabilities to update the list /availability
-            const url = '/api/schedules/availability';
+            const url = `${backendUrl}/api/schedules/availability`;
             const response = await axios.get(url, config);
             setAvailabilities(response.data);
         } catch (error) {

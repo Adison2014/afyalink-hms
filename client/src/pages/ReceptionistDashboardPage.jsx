@@ -47,7 +47,7 @@ const Notification = ({ message, type, onClose }) => {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 function ReceptionistDashboardPage() {
   const { user, isAuthenticated, loading: authLoading, token } = useAuth();
@@ -95,7 +95,6 @@ function ReceptionistDashboardPage() {
     setLoading(true);
     try {
       const today = new Date().toISOString().split('T')[0];
-      const API_BASE_URL = '/api'; // Use relative path if backend is on same domain, or define in .env
 
       const [
         appointmentsResponse,
@@ -108,15 +107,15 @@ function ReceptionistDashboardPage() {
         //revenueTodayResponse, // New fetch
         pendingPaymentsResponse, // New fetch
       ] = await Promise.all([
-        fetch(`${API_BASE_URL}/appointments?date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/patients/recent`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/beds/availability`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/patients/count`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/admin/stats`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        //fetch(`${API_BASE_URL}/appointments?date=${today}&status=Scheduled`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch(`${API_BASE_URL}/departments/count`, { headers: { 'Authorization': `Bearer ${token}` } }),
-        //fetch(`${API_BASE_URL}/payments/revenue/today`, { headers: { 'Authorization': `Bearer ${token}` } }), // Assuming endpoint for today's revenue
-        fetch(`${API_BASE_URL}/payments/pending/count`, { headers: { 'Authorization': `Bearer ${token}` } }), // Assuming endpoint for pending payments
+        fetch(`${backendUrl}/api/appointments?date=${today}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/patients/recent`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/beds/availability`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/patients/count`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/admin/stats`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        //fetch(`${backendUrl}/api/appointments?date=${today}&status=Scheduled`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch(`${backendUrl}/api/departments/count`, { headers: { 'Authorization': `Bearer ${token}` } }),
+        //fetch(`${backendUrl}/api/payments/revenue/today`, { headers: { 'Authorization': `Bearer ${token}` } }), // Assuming endpoint for today's revenue
+        fetch(`${backendUrl}/api/payments/pending/count`, { headers: { 'Authorization': `Bearer ${token}` } }), // Assuming endpoint for pending payments
       ]);
 
       const [
@@ -195,8 +194,7 @@ function ReceptionistDashboardPage() {
   // Handle patient check-in
   const handleCheckIn = async (appointmentId) => {
     try {
-      const API_BASE_URL = '/api';
-      const response = await fetch(`${API_BASE_URL}/appointments/${appointmentId}`, {
+      const response = await fetch(`${backendUrl}/api/appointments/${appointmentId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

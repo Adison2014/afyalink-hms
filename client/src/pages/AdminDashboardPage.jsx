@@ -72,7 +72,7 @@ function DashboardPage() {
   const fetchAdminStats = async () => {
     if (!token) return;
     try {
-      const response = await fetch('/api/admin/stats', {
+      const response = await fetch(`${backendUrl}/api/admin/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -95,7 +95,7 @@ function DashboardPage() {
     }
     try {
       const today = new Date().toISOString().split('T')[0];
-      const response = await fetch(`/api/appointments?date=${today}&status=Scheduled`, {
+      const response = await fetch(`${backendUrl}/api/appointments?date=${today}&status=Scheduled`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -116,7 +116,7 @@ function DashboardPage() {
       return;
     }
     try {
-      const response = await fetch('/api/admin/appointment-status-counts', {
+      const response = await fetch(`${backendUrl}/api/admin/appointment-status-counts`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },

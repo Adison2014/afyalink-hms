@@ -125,7 +125,7 @@ const StaffListModal = ({ isOpen, onClose, departmentName, staffList }) => {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 // --- Main DepartmentsManagementPage Component ---
 function DepartmentsManagementPage() {
@@ -162,7 +162,7 @@ function DepartmentsManagementPage() {
   // Helper function to fetch staff for a department
   const fetchStaffForDepartment = async (departmentId) => {
     try {
-      const response = await fetch(`/api/departments/${departmentId}/staff`, { //
+      const response = await fetch(`${backendUrl}/api/departments/${departmentId}/staff`, { //
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) {
@@ -181,7 +181,7 @@ function DepartmentsManagementPage() {
   const fetchPotentialDepartmentHeads = useCallback(async () => {
     if (!token) return;
     try {
-      const response = await fetch('/api/departments/potential-heads', { //
+      const response = await fetch(`${backendUrl}/api/departments/potential-heads`, { //
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) {
@@ -202,7 +202,7 @@ function DepartmentsManagementPage() {
     }
     setLoading(true);
     try {
-      const response = await fetch('/api/departments', { //
+      const response = await fetch(`${backendUrl}/api/departments`, { //
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -265,7 +265,7 @@ function DepartmentsManagementPage() {
 
 
     try {
-      const url = editingDepartment ? `/api/departments/${editingDepartment.id}` : '/api/departments'; //
+      const url = editingDepartment ? `${backendUrl}/api/departments/${editingDepartment.id}` : `${backendUrl}/api/departments`; //
       const method = editingDepartment ? 'PUT' : 'POST'; //
 
       const response = await fetch(url, {
@@ -285,7 +285,7 @@ function DepartmentsManagementPage() {
 
       setNotification({ message: data.message || `Department ${editingDepartment ? 'updated' : 'added'} successfully!`, type: 'success' });
       setShowDepartmentFormModal(false);
-      fetchDepartments(); // Refresh the list
+      fetchDepartments(); // Refresh the list ${backendUrl}/api/api
     } catch (error) {
       console.error(`Error ${editingDepartment ? 'updating' : 'adding'} department:`, error);
       setNotification({ message: error.message || `An error occurred while ${editingDepartment ? 'updating' : 'adding'} the department.`, type: 'error' });
@@ -301,7 +301,7 @@ function DepartmentsManagementPage() {
 
     setNotification({ message: null, type: null });
     try {
-      const response = await fetch(`/api/departments/${departmentToDelete.id}`, { //
+      const response = await fetch(`${backendUrl}/api/departments/${departmentToDelete.id}`, { //
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

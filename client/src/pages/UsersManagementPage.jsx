@@ -109,9 +109,9 @@ const DeleteConfirmationModal = ({ isOpen, onClose, onConfirm, userName }) => {
   );
 };
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL || '/api';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 // --- Main UsersManagementPage Component ---
 function UsersManagementPage() {
@@ -163,7 +163,7 @@ function UsersManagementPage() {
         queryParams.append('role', filterRole);
       }
 
-      const response = await fetch(`${backendUrl}/users?${queryParams.toString()}`, { // Added query parameters
+      const response = await fetch(`${backendUrl}/api/users?${queryParams.toString()}`, { // Added query parameters
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -223,7 +223,7 @@ function UsersManagementPage() {
 
   const handleToggleStatus = async (userId, currentStatus) => {
     try {
-      const response = await fetch(`${backendUrl}/users/${userId}/toggle-status`, {
+      const response = await fetch(`${backendUrl}/api/users/${userId}/toggle-status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -250,7 +250,7 @@ function UsersManagementPage() {
     }
     setNotification({ message: `Sending password reset for user ${userId}...`, type: 'info' });
     try {
-      const response = await fetch(`${backendUrl}/users/${userId}/reset-password`, {
+      const response = await fetch(`${backendUrl}/api/users/${userId}/reset-password`, {
         method: 'POST', // Changed to POST, as reset usually triggers an action, not updates a resource directly
         headers: {
           'Authorization': `Bearer ${token}`
@@ -348,11 +348,11 @@ function UsersManagementPage() {
       delete dataToSend.password;
     }
 
-    let url = `${backendUrl}/users`;
+    let url = `${backendUrl}/api/users`;
     let method = 'POST';
 
     if (editingUser) {
-      url = `${backendUrl}/users/${editingUser.id}`;
+      url = `${backendUrl}/api/users/${editingUser.id}`;
       method = 'PUT';
     }
 
@@ -390,7 +390,7 @@ function UsersManagementPage() {
     if (!userToDelete || !token) return;
 
     try {
-      const response = await fetch(`${backendUrl}/users/${userToDelete.id}`, {
+      const response = await fetch(`${backendUrl}/api/users/${userToDelete.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -536,12 +536,12 @@ function UsersManagementPage() {
             <table className="min-w-full leading-normal">
               <thead>
                 <tr className="bg-gray-100 border-b border-gray-200 text-gray-600 uppercase text-sm">
-                  <th className="px-5 py-3 text-left">User</th> {/* Combined Avatar and Username */}
+                  <th className="px-5 py-3 text-left">User</th>
                   <th className="px-5 py-3 text-left">Full Name</th>
                   <th className="px-5 py-3 text-left">Role</th>
                   <th className="px-5 py-3 text-left">Email</th>
-                  <th className="px-5 py-3 text-left">Status</th> {/* Added Status */}
-                  <th className="px-5 py-3 text-left">Last Login</th> {/* Added Last Login */}
+                  <th className="px-5 py-3 text-left">Status</th>
+                  <th className="px-5 py-3 text-left">Last Login</th>
                   <th className="px-5 py-3 text-left">Actions</th>
                 </tr>
               </thead>

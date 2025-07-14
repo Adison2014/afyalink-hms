@@ -6,7 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -32,7 +32,7 @@ function RegisterPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:5005/api/register', {
+      const response = await fetch(`${backendUrl}/api/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

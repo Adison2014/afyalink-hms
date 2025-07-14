@@ -116,7 +116,7 @@ const ConfirmDeleteModal = ({ isOpen, onClose, onConfirm, itemType }) => {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 function AppointmentsPage() {
   const { user, isAuthenticated, loading: authLoading, token } = useAuth();
@@ -153,7 +153,7 @@ function AppointmentsPage() {
   const [appointmentToDelete, setAppointmentToDelete] = useState(null); // Stores ID of appointment to delete
 
 
-  const API_BASE_URL = '/api';
+  //const backendUrl = '/api';
 
   // --- Fetching Data ---
   const fetchAppointments = useCallback(async () => {
@@ -168,7 +168,7 @@ function AppointmentsPage() {
       if (searchTerm) queryParams.append('search', searchTerm);
 
 
-      const url = `${API_BASE_URL}/appointments?${queryParams.toString()}`;
+      const url = `${backendUrl}/api/appointments?${queryParams.toString()}`;
       const response = await fetch(url, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -190,7 +190,7 @@ function AppointmentsPage() {
   const fetchPatients = useCallback(async () => {
     if (!token) return;
     try {
-      const response = await fetch(`${API_BASE_URL}/patients`, {
+      const response = await fetch(`${backendUrl}/api/patients`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) {
@@ -210,7 +210,7 @@ function AppointmentsPage() {
     if (!token) return;
     try {
       // FIX: Changed from /api/users/doctors to /api/users?role=doctor
-      const response = await fetch(`${API_BASE_URL}/users?role=doctor`, { 
+      const response = await fetch(`${backendUrl}/api/users?role=doctor`, { 
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) {
@@ -228,7 +228,7 @@ function AppointmentsPage() {
   const fetchDepartments = useCallback(async () => {
     if (!token) return;
     try {
-      const response = await fetch(`${API_BASE_URL}/departments`, { // Assuming an endpoint for departments
+      const response = await fetch(`${backendUrl}/api/departments`, { // Assuming an endpoint for departments
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!response.ok) {
@@ -342,8 +342,8 @@ function AppointmentsPage() {
     try {
       const method = editingAppointment ? 'PUT' : 'POST';
       const url = editingAppointment
-        ? `${API_BASE_URL}/appointments/${editingAppointment.id}`
-        : `${API_BASE_URL}/appointments`;
+        ? `${backendUrl}/api/appointments/${editingAppointment.id}`
+        : `${backendUrl}/api/appointments`;
 
       const response = await fetch(url, {
         method,
@@ -381,7 +381,7 @@ function AppointmentsPage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/appointments/${appointmentToDelete}`, {
+      const response = await fetch(`${backendUrl}/api/appointments/${appointmentToDelete}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` },
       });

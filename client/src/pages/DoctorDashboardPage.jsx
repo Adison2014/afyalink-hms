@@ -43,7 +43,7 @@ const Notification = ({ message, type, onClose }) => {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-//${backendUrl}
+//${backendUrl}/api
 
 function DoctorDashboardPage() {
     const { user, isAuthenticated, loading: authLoading, token } = useAuth();
@@ -58,14 +58,14 @@ function DoctorDashboardPage() {
         recentActivities: [],
         patientCount: 0,
         availableSlotsToday: 0, // Placeholder, ideally calculated dynamically
-        unreadMessages: [], // New: Separate from critical alerts
+        unreadMessages: [], // New: Separate from critical alertsbackendUrl
     });
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [notification, setNotification] = useState({ message: null, type: null });
 
-    const API_BASE_URL = '/api/';
+  //  const backendUrl = '/api/';
 
     const showNotification = (message, type = 'info') => {
         setNotification({ message, type });
@@ -94,14 +94,14 @@ function DoctorDashboardPage() {
                 recentActivitiesRes,
                 unreadMessagesRes // New API call
             ] = await Promise.all([
-                fetch(`${API_BASE_URL}/appointments?doctor_id=${user.id}&date=${todayDateString}&status=Scheduled`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/appointments?doctor_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/lab-reports?doctor_id=${user.id}&status=pending`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/patients?admitted_by=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/alerts/by-user?recipient_id=${user.id}&severity=critical`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/patients/count?doctor_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/doctor-activities?doctor_id=${user.id}&limit=5`, { headers: { 'Authorization': `Bearer ${token}` } }),
-                fetch(`${API_BASE_URL}/messages?recipient_id=${user.id}&status=unread`, { headers: { 'Authorization': `Bearer ${token}` } }), // Fetch unread messages
+                fetch(`${backendUrl}/api/appointments?doctor_id=${user.id}&date=${todayDateString}&status=Scheduled`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/appointments?doctor_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/lab-reports?doctor_id=${user.id}&status=pending`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/patients?admitted_by=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/alerts/by-user?recipient_id=${user.id}&severity=critical`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/patients/count?doctor_id=${user.id}`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/doctor-activities?doctor_id=${user.id}&limit=5`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                fetch(`${backendUrl}/api/messages?recipient_id=${user.id}&status=unread`, { headers: { 'Authorization': `Bearer ${token}` } }), // Fetch unread messages
             ]);
 
             const responses = [
@@ -157,7 +157,7 @@ function DoctorDashboardPage() {
         } finally {
             setLoading(false);
         }
-    }, [token, user?.id, API_BASE_URL]);
+    }, [token, user?.id, backendUrl]);
 
     useEffect(() => {
         if (!authLoading && isAuthenticated && user && user.role === 'doctor') {
