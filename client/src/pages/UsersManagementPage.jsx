@@ -404,7 +404,7 @@ function UsersManagementPage() {
 
       setNotification({ message: 'User deleted successfully!', type: 'success' });
       setUserToDelete(null);
-      fetchUsers(); // Refresh the list
+      fetchUsers();
     } catch (err) {
       console.error('Error deleting user:', err);
       setNotification({ message: `Error deleting user: ${err.message}`, type: 'error' });
