@@ -103,7 +103,7 @@ function AppContent() {
         <Routes>
           {/* Public routes 
           <Route path="/" element={<HomePage />} />*/}
-          <Route path="/home" element={<HomePagePublic />} />
+          <Route path="/" element={<HomePagePublic />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/unauthorized" element={<div className="flex justify-center items-center h-screen bg-red-50"><div className="text-lg text-red-700">Access Denied: You do not have permission to view this page.</div></div>} />
